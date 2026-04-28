@@ -116,6 +116,144 @@ HRMS (SAP/Workday) · Staffing System · LMS (Internal) · Communication (Email/
 
 ---
 
+## RAG Architecture (Retrieval-Augmented Generation)
+
+Pure LLM generation is insufficient for a production interview coaching system. Without retrieval, agents hallucinate question banks, invent learning resources, and score without calibration anchors. RAG grounds every agent output in real organizational data.
+
+### Where RAG Is Used
+
+| Agent | What It Retrieves | Vector Store | Embedding Strategy |
+|-------|------------------|-------------|-------------------|
+| **Mock Interviewer** | Relevant interview questions for the JD's skill set | Question Bank Store | JD skills + difficulty level embedded per question |
+| **Learning Recommender** | Courses and resources matching the candidate's specific gaps | L&D Catalog Store | Gap description + skill name embedded per resource |
+| **Story Coach** | Example STAR stories for similar roles and requirements | Story Example Store | JD requirement + domain embedded per example story |
+| **Gap Analyzer** | Past candidate profiles with similar backgrounds and their outcomes | Outcome History Store | Skill vector + domain + experience band embedded per profile |
+| **Evidence Vault Analyzer** | Candidate's existing profile entries to cross-reference uploaded docs | Candidate Profile Store | Achievement + skill descriptions embedded per profile entry |
+| **Feedback Scorer** | Calibration examples — scored responses with known quality levels | Calibration Store | Response text + dimension scores embedded per calibration sample |
+
+### RAG Pipeline (Per Agent)
+
+```
+User input / agent trigger
+        ↓
+Query formulation — convert input to retrieval query
+  (e.g., "Java, Spring Boot, BFSI domain, senior level" for mock questions)
+        ↓
+Embedding — encode query using same model as document corpus
+        ↓
+Vector similarity search — retrieve top-K most relevant chunks
+  (cosine similarity, typically K=5-10)
+        ↓
+Context injection — retrieved chunks prepended to LLM system prompt
+        ↓
+LLM generation — grounded in retrieved context, not free generation
+        ↓
+Output + source logging — every output logs which chunks were retrieved
+```
+
+### Vector Stores
+
+| Store | Contents | Size Estimate | Update Frequency |
+|-------|----------|--------------|-----------------|
+| Question Bank | 10,000+ interview questions tagged by skill, domain, difficulty | ~50MB | Monthly (curated + generated) |
+| L&D Catalog | All internal courses + curated external resources, chunked by topic | ~30MB | Weekly sync from LMS |
+| STAR Story Examples | 500+ anonymized high-quality STAR stories by role type | ~20MB | Quarterly (human-curated) |
+| Outcome History | Anonymized past candidate profiles + interview outcomes | Grows with usage | Real-time as outcomes are logged |
+| Calibration Samples | 200+ scored mock responses per dimension | ~10MB | Monthly (human calibration) |
+
+### Embedding Model
+- **Model:** `text-embedding-3-small` (OpenAI) or equivalent — 1536 dimensions
+- **Chunking:** 512 tokens with 50-token overlap for document stores
+- **Re-embedding trigger:** Any document update causes affected chunks to be re-embedded
+
+### Why RAG Over Fine-Tuning
+
+| Approach | Pros | Cons | Our Choice |
+|----------|------|------|-----------|
+| Fine-tuning | Fast inference, no retrieval latency | Expensive to update, knowledge frozen at training | ✗ |
+| RAG | Always current, auditable sources, org-specific | Retrieval latency (~200ms) | ✓ |
+| Prompt engineering alone | Simple | Hallucination risk, no org data grounding | ✗ |
+
+RAG is preferred because the question bank, L&D catalog, and outcome history change frequently. A fine-tuned model would be stale within weeks. RAG keeps the system grounded in live organizational data without retraining.
+
+---
+
+## Personalization Engine
+
+Generic coaching fails because it treats all candidates as identical. A 10-year cloud architect preparing for an Azure role needs different coaching than a 3-year Java developer preparing for the same role. The personalization engine ensures every coaching touchpoint is adapted to the individual.
+
+### Personalization Dimensions
+
+| Dimension | Data Signal | How It Personalizes |
+|-----------|------------|-------------------|
+| **Experience Band** | Years of experience, seniority level | Readiness score threshold adjusted (senior = higher bar), mock difficulty baseline calibrated |
+| **Domain History** | Past project domains (BFSI, Retail, Healthcare) | Domain-specific examples used in story coaching; domain-relevant mock questions prioritized |
+| **Skill Proficiency** | Self-reported + demonstrated in enrichment + verified in mocks | Prep plan time allocation weighted by gap severity; low-proficiency skills get more practice time |
+| **Learning Velocity** | Rate of score improvement across mock sessions | Slow improvers get more foundational resources; fast improvers get harder drills faster |
+| **Prep Engagement** | Completion rate, days active, streak length | Nudge timing and frequency adapted (disengaged candidates get more check-ins) |
+| **Articulation Style** | Verbose vs concise response patterns detected in enrichment | Story coach adapts guidance: verbose candidates coached on brevity, terse candidates coached on depth |
+| **Interview Timeline** | Days until actual interview | Prep plan compressed or expanded; near-interview candidates skip learning phases, go straight to mocks |
+| **Client Intelligence** | What specific clients look for (from outcome history) | Mock interviewer adjusts question style to match client's known preferences |
+
+### Personalization Signals — Where They Come From
+
+```
+Resume upload
+  → Skills, experience band, domain history extracted at parse time
+  → Stored in candidate profile as baseline signals
+
+Enrichment conversation
+  → Articulation style detected (response length, structure quality)
+  → Technical depth demonstrated (specificity of answers)
+  → Confidence signals (hedging language, directness)
+
+Gap analysis
+  → Skill-level proficiency scores established per dimension
+  → JD-specific gaps prioritized into prep plan weighting
+
+Mock interview sessions
+  → Learning velocity calculated (score delta per session)
+  → Specific weak dimensions identified
+  → Response patterns (verbose/terse, structured/unstructured)
+
+Outcome data (from manager feedback loop)
+  → Calibrates which preparation activities actually correlate with conversion
+  → Client-specific patterns inform mock question selection
+```
+
+### Personalization in Practice
+
+**Example 1 — Same JD, different candidates:**
+
+> Candidate A: 8 years Java, BFSI domain, verbose responder
+> Candidate B: 3 years Java, Retail domain, terse responder
+>
+> Candidate A's prep plan: Focuses on conciseness drills, system design depth, leadership STAR stories. Mock mode starts at Simulation.
+>
+> Candidate B's prep plan: Focuses on technical depth building, domain knowledge for BFSI, expanding answers with quantification. Mock mode starts at Practice.
+
+**Example 2 — Same candidate, different timeline:**
+
+> Interview in 10 days: Full 7-stage journey activated.
+> Interview in 3 days: Stages 1-3 skipped (or fast-tracked). Focus immediately on mock interviews and story polish.
+> Interview tomorrow: Only interview day checklist and story review activated.
+
+**Example 3 — Client-specific personalization:**
+
+> Candidate preparing for Global Bank Corp.
+> System knows from 47 past interviews: Global Bank Corp asks system design in 92% of interviews and values concise answers (avg successful interview: 28 min).
+> Mock interviewer automatically includes a system design question and flags any response over 2.5 minutes as "needs to be shorter."
+
+### Personalization vs Privacy
+
+All personalization signals are:
+- Derived from the candidate's own inputs and session data — no external profiling
+- Visible to the candidate on request ("why is my prep plan structured this way?")
+- Not shared cross-candidate — insights are statistical (Client X patterns) not individual comparisons
+- Deletable on request (DPDP / GDPR right to erasure)
+
+---
+
 ## Data Model (Core Entities)
 
 ### Candidate Profile
