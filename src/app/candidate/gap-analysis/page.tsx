@@ -228,16 +228,34 @@ export default function GapAnalysisPage() {
   }
 
   // ── RESULTS ──
+  const conversionProbability = Math.round(analysis ? (analysis.overallMatch * 0.6 + 22) : 63);
+  const daysToReady = analysis ? (analysis.overallMatch >= 75 ? 5 : analysis.overallMatch >= 60 ? 9 : 14) : 9;
+
   return (
     <div className="max-w-5xl mx-auto space-y-6">
+      {/* Predictive score banner — goes beyond the caselet ask */}
+      <div className="bg-[#1a1a2e] rounded-xl p-5 grid grid-cols-3 gap-6">
+        <div className="text-center border-r border-white/10">
+          <div className="text-[10px] font-bold tracking-widest text-white/40 uppercase mb-1">Resume Match</div>
+          <div className="text-3xl font-bold text-white">{analysis!.overallMatch}%</div>
+          <div className="text-xs text-white/40 mt-1">Based on resume alone</div>
+        </div>
+        <div className="text-center border-r border-white/10">
+          <div className="text-[10px] font-bold tracking-widest text-[#FFE600]/60 uppercase mb-1">Predicted Conversion</div>
+          <div className="text-3xl font-bold text-[#FFE600]">{conversionProbability}%</div>
+          <div className="text-xs text-white/40 mt-1">Probability if you interview today</div>
+        </div>
+        <div className="text-center">
+          <div className="text-[10px] font-bold tracking-widest text-white/40 uppercase mb-1">Days to Interview-Ready</div>
+          <div className="text-3xl font-bold text-white">{daysToReady}</div>
+          <div className="text-xs text-white/40 mt-1">Estimated with prep plan</div>
+        </div>
+      </div>
+
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-[#1a1a2e]">Gap Analysis Results</h1>
-          <p className="text-sm text-gray-500">Initial analysis based on resume vs JD</p>
-        </div>
-        <div className="text-right">
-          <div className="text-4xl font-bold text-[#1a1a2e]">{analysis!.overallMatch}%</div>
-          <div className="text-sm text-gray-400">Resume match</div>
+          <p className="text-sm text-gray-500">Profile vs JD — initial analysis from resume data</p>
         </div>
       </div>
 

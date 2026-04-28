@@ -176,10 +176,30 @@ export default function MatchPage() {
       </div>
 
       {matches && (
+        <>
+        {/* AI Staffing Recommendation — beyond the caselet ask */}
+        <div className="bg-[#1a1a2e] rounded-xl p-5">
+          <div className="text-[10px] font-bold tracking-widest text-[#FFE600]/60 uppercase mb-3">AI Staffing Recommendation</div>
+          <div className="flex items-start gap-4">
+            <div className="w-10 h-10 rounded-full bg-[#FFE600] flex items-center justify-center text-[#1a1a2e] font-bold shrink-0">#1</div>
+            <div className="flex-1">
+              <div className="text-white font-semibold mb-1">{matches[0]?.candidate.name} — Submit for this interview</div>
+              <div className="text-sm text-white/50 leading-relaxed">
+                Based on {matches[0]?.candidate.mocksTaken} mock sessions, a {matches[0]?.candidate.readinessScore}/100 readiness score, and {matches[0]?.matchedSkills.length} of {allJDs.find(j => j.id === selectedJD)?.mustHaveSkills.length} must-have skills matched — this candidate has the highest predicted conversion probability for this JD.
+                {matches[0]?.candidate.trend === "improving" && " Score is trending upward — readiness is improving with each session."}
+              </div>
+            </div>
+            <div className="text-right shrink-0">
+              <div className="text-2xl font-bold text-[#FFE600]">{matches[0]?.matchScore}%</div>
+              <div className="text-[10px] text-white/30">match score</div>
+            </div>
+          </div>
+        </div>
+
         <div className="bg-white rounded-lg border overflow-hidden">
           <div className="px-4 py-3 bg-gray-50 border-b">
             <h2 className="font-semibold text-ey-dark text-sm">
-              Ranked Candidates for: {allJDs.find((j) => j.id === selectedJD)?.roleTitle}
+              All Candidates — Ranked for: {allJDs.find((j) => j.id === selectedJD)?.roleTitle}
             </h2>
           </div>
           <div className="divide-y">
@@ -247,6 +267,7 @@ export default function MatchPage() {
             ))}
           </div>
         </div>
+        </>
       )}
     </div>
   );

@@ -121,6 +121,16 @@ export default function OnboardingPage() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleDownload = () => {
+    const blob = new Blob([strengthenedResume], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Strengthened_Resume.txt";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   // ── UPLOAD STEP ──
   if (step === "upload") {
     return (
@@ -244,12 +254,20 @@ export default function OnboardingPage() {
               <div className="text-sm font-bold text-white">Strengthened Resume Ready</div>
               <div className="text-xs text-white/40">Based on your enrichment answers</div>
             </div>
-            <button
-              onClick={handleCopy}
-              className="bg-[#FFE600] text-[#1a1a2e] px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-yellow-300 transition-colors"
-            >
-              {copied ? "Copied!" : "Copy Resume"}
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={handleDownload}
+                className="bg-white/10 border border-white/20 text-white px-4 py-1.5 rounded-lg text-xs font-medium hover:bg-white/20 transition-colors"
+              >
+                Download .txt
+              </button>
+              <button
+                onClick={handleCopy}
+                className="bg-[#FFE600] text-[#1a1a2e] px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-yellow-300 transition-colors"
+              >
+                {copied ? "Copied!" : "Copy Resume"}
+              </button>
+            </div>
           </div>
           <div className="bg-white/5 border border-white/10 rounded-lg p-4 max-h-48 overflow-y-auto">
             <pre className="text-xs text-white/70 whitespace-pre-wrap font-mono leading-relaxed">{strengthenedResume}</pre>
