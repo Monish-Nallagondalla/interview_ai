@@ -2,54 +2,35 @@
 
 ## High-Level Architecture
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                        PRESENTATION LAYER                        │
-├──────────────┬──────────────┬──────────────┬────────────────────┤
-│  Candidate   │   Manager    │    L&D       │   Staffing/RMG     │
-│   Portal     │  Dashboard   │  Analytics   │   Matching Tool    │
-└──────┬───────┴──────┬───────┴──────┬───────┴────────┬───────────┘
-       │              │              │                │
-┌──────┴──────────────┴──────────────┴────────────────┴───────────┐
-│                      ORCHESTRATION LAYER                          │
-│  (Routes requests to appropriate AI agents, manages state,       │
-│   enforces guardrails, logs decisions)                            │
-└──────┬──────────────┬──────────────┬────────────────┬───────────┘
-       │              │              │                │
-┌──────┴──────┐ ┌─────┴─────┐ ┌─────┴─────┐ ┌───────┴──────────┐
-│  Profile    │ │    Gap     │ │  Coaching  │ │   Evaluation     │
-│  Agents     │ │  Agents    │ │  Agents    │ │   Agents         │
-├─────────────┤ ├───────────-┤ ├───────────-┤ ├──────────────────┤
-│• Resume     │ │• JD Parser │ │• Prep Plan │ │• Mock Scorer     │
-│  Parser     │ │• Skill     │ │• Story     │ │• Readiness       │
-│• Enrichment │ │  Matcher   │ │  Coach     │ │  Calculator      │
-│  Chatbot    │ │• Gap       │ │• Mock      │ │• Bias Detector   │
-│• Profile    │ │  Ranker    │ │  Interview │ │• Outcome         │
-│  Builder    │ │            │ │• Learning  │ │  Correlator      │
-│             │ │            │ │  Recommndr │ │                  │
-└──────┬──────┘ └─────┬─────┘ └─────┬─────┘ └───────┬──────────┘
-       │              │              │                │
-┌──────┴──────────────┴──────────────┴────────────────┴───────────┐
-│                         DATA LAYER                                │
-├─────────────┬───────────────┬───────────────┬───────────────────┤
-│  Candidate  │  Enterprise   │  AI/ML        │  Analytics        │
-│  Profiles   │  Data         │  Models       │  & Audit          │
-│             │               │               │                   │
-│• Rich       │• Skill        │• Scoring      │• Decision logs    │
-│  profiles   │  taxonomy     │  models       │• Outcome data     │
-│• Stories    │• JD library   │• Question     │• Conversion       │
-│• Sessions   │• L&D catalog  │  banks        │  analytics        │
-│• Scores     │• Project      │• Embedding    │• Bias reports     │
-│             │  history      │  store        │• User analytics   │
-└─────────────┴───────────────┴───────────────┴───────────────────┘
-       │              │              │                │
-┌──────┴──────────────┴──────────────┴────────────────┴───────────┐
-│                    INTEGRATION LAYER                              │
-├─────────────┬───────────────┬───────────────┬───────────────────┤
-│   HRMS      │  Staffing     │    LMS        │  Communication    │
-│  (SAP/WD)   │  System       │  (Internal)   │  (Email/Teams)    │
-└─────────────┴───────────────┴───────────────┴───────────────────┘
-```
+> **The architecture diagram is available as a visual, interactive page.**
+> View it here: [/docs/architecture](/docs/architecture)
+>
+> The diagram below is the text specification for reference.
+
+### Layer 1 — Presentation
+Four user-facing portals: Candidate Portal, Manager Dashboard, L&D Analytics, Staffing/RMG Matching Tool.
+
+### Layer 2 — Orchestration
+Routes requests to appropriate AI agents, manages session state, enforces guardrails, logs every decision with reasoning chain.
+
+### Layer 3 — AI Agents (8 specialists)
+| Group | Agents |
+|-------|--------|
+| Profile Agents | Resume Parser, Enrichment Chatbot, Profile Builder, Evidence Analyzer |
+| Gap Agents | JD Parser, Skill Matcher, Gap Ranker, Deep Dive Prober |
+| Coaching Agents | Prep Plan Generator, Story Coach, Mock Interviewer, Learning Recommender |
+| Evaluation Agents | Mock Scorer, Readiness Calculator, Bias Detector, Outcome Correlator |
+
+### Layer 4 — Data
+| Store | Contents |
+|-------|----------|
+| Candidate Profiles | Rich profiles, STAR stories, mock sessions, readiness scores, evidence vault |
+| Enterprise Data | Skill taxonomy, JD library, L&D catalog, project history |
+| AI/ML Models | Scoring models, question banks, embedding store, calibration datasets |
+| Analytics & Audit | Decision logs, outcome data, conversion analytics, bias reports |
+
+### Integration Layer
+HRMS (SAP/Workday) · Staffing System · LMS (Internal) · Communication (Email/Teams)
 
 ---
 

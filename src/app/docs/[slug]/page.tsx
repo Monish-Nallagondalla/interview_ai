@@ -39,6 +39,20 @@ export default function DocViewerPage({ params }: { params: Promise<{ slug: stri
       </header>
 
       <div className="max-w-4xl mx-auto px-8 py-12">
+        {/* Architecture visual banner */}
+        {slug === "03_SYSTEM_ARCHITECTURE" && (
+          <Link
+            href="/docs/architecture"
+            className="flex items-center justify-between bg-[#1a1a2e] rounded-xl px-5 py-4 mb-8 hover:bg-[#2a2a3e] transition-colors"
+          >
+            <div>
+              <div className="text-sm font-bold text-white mb-0.5">View as Visual Diagram</div>
+              <div className="text-xs text-white/50">Interactive 4-layer architecture with 8 AI agents — rendered as a proper visual</div>
+            </div>
+            <span className="text-[#FFE600] font-bold text-sm shrink-0">Open →</span>
+          </Link>
+        )}
+
         {loading ? (
           <div className="text-gray-400 text-center py-20">Loading...</div>
         ) : (

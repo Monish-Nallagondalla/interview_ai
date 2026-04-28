@@ -4,21 +4,21 @@ import { Logo } from "@/components/logo";
 export default function ArchitecturePage() {
   return (
     <div className="min-h-screen bg-white">
-      <header className="bg-[#1a1a2e]">
-        <div className="max-w-5xl mx-auto px-8 py-4 flex items-center justify-between">
+      <header className="bg-[#1a1a2e] sticky top-0 z-10">
+        <div className="max-w-4xl mx-auto px-8 py-4 flex items-center justify-between">
           <Link href="/docs" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
             <Logo size={24} />
             <span className="text-sm font-semibold text-white">InterviewAI</span>
             <div className="h-4 w-px bg-white/20" />
-            <span className="text-sm text-white/60">System Architecture</span>
+            <span className="text-sm text-white/60">Documentation</span>
           </Link>
-          <Link href="/docs/03_SYSTEM_ARCHITECTURE" className="text-sm text-white/50 hover:text-white transition-colors">
-            Full spec doc →
+          <Link href="/docs" className="text-sm text-white/50 hover:text-white transition-colors">
+            All documents
           </Link>
         </div>
       </header>
 
-      <div className="max-w-5xl mx-auto px-8 py-12 space-y-12">
+      <div className="max-w-4xl mx-auto px-8 py-12 space-y-12">
         <div>
           <h1 className="text-3xl font-bold text-[#1a1a2e] mb-3">System Architecture</h1>
           <p className="text-gray-500">Four-layer architecture with 8 specialized AI agents, orchestration routing, enterprise data integrations, and full audit infrastructure.</p>
@@ -194,7 +194,7 @@ export default function ArchitecturePage() {
 
         <div className="flex justify-between items-center pt-4 border-t border-gray-100">
           <Link href="/docs" className="text-sm text-gray-500 hover:text-[#1a1a2e] transition-colors">← Back to all docs</Link>
-          <Link href="/docs/03_SYSTEM_ARCHITECTURE" className="text-sm font-medium text-[#1a1a2e] hover:underline">Full specification document →</Link>
+          <Link href="/docs/03_SYSTEM_ARCHITECTURE" className="text-sm font-medium text-[#1a1a2e] hover:underline">View full specification →</Link>
         </div>
       </div>
     </div>
