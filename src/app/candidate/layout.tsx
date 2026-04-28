@@ -10,6 +10,7 @@ const navItems = [
   { label: "Prep Plan", href: "/candidate/prep-plan", step: 4 },
   { label: "Story Builder", href: "/candidate/story-builder", step: 5 },
   { label: "Story Bank", href: "/candidate/story-bank" },
+  { label: "Evidence Vault", href: "/candidate/evidence-vault" },
   { label: "Mock Interview", href: "/candidate/mock-interview", step: 6 },
   { label: "Mock History", href: "/candidate/mock-history" },
   { label: "Scorecard", href: "/candidate/scorecard", step: 7 },
