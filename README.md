@@ -25,7 +25,7 @@ InterviewAI treats this as an **operating model problem**, not a chatbot problem
 
 ## Live Demo
 
-**[→ View Live App](https://interview-ai-navy.vercel.app)**
+**[→ View Live App](https://interviewai-orpin.vercel.app)**
 
 | Portal | Path | Description |
 |--------|------|-------------|
