@@ -51,6 +51,12 @@ const narrative = [
     doc: { title: "12-Month Roadmap & Sprints", href: "/docs/ROADMAP_AND_SPRINTS" },
   },
   {
+    phase: "AI Evaluation & Edge Cases",
+    thinking: "A demo that works on clean inputs proves nothing about production readiness. Enterprise AI fails in predictable ways: inconsistent scoring across runs, sycophantic feedback that inflates scores, hallucinated interview questions outside the JD, biased scores by gender or communication style, and complete breakdowns when candidates submit empty or foreign-language resumes. These aren't hypothetical — they're failure modes observed in every LLM-based product that skips proper evaluation design.",
+    decision: "Defined agent-by-agent evaluation criteria with specific test cases, pass/fail thresholds, and automated daily/weekly/quarterly evaluation schedules. 15 edge cases documented across 5 categories (input quality, agent failure, data privacy, scale, human-in-the-loop) — each with a named mitigation. The eval framework is a pre-condition for deployment, not a post-launch audit.",
+    doc: { title: "AI Evaluation Framework & Edge Cases", href: "/docs/06_AI_EVALS_AND_EDGE_CASES" },
+  },
+  {
     phase: "Prototype Decisions",
     thinking: "The prototype needed to prove three things: (1) the AI interactions actually work and feel valuable, (2) the enterprise layer is thought through, and (3) the data story is complete. It doesn't need a database, auth, or file upload — those are infrastructure, not product insight.",
     decision: "AI-powered screens use real API calls (enrichment, gap analysis, mock interview, scoring). Enterprise screens use realistic mock data for a 2L org. The result: a live demo where the evaluator can actually experience the coaching journey, and dashboards that show how the platform operates at scale.",
@@ -176,6 +182,7 @@ export default function DocsPage() {
               { title: "KPIs, Metrics & ROI Model", slug: "KPIS_AND_METRICS" },
               { title: "Risks & Reliability", slug: "RISKS_AND_RELIABILITY" },
               { title: "12-Month Roadmap & Sprints", slug: "ROADMAP_AND_SPRINTS" },
+              { title: "AI Evaluation Framework & Edge Cases", slug: "06_AI_EVALS_AND_EDGE_CASES" },
             ].map((doc) => (
               <Link
                 key={doc.slug}

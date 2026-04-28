@@ -3,8 +3,8 @@
 ## Overview
 InterviewAI is a Bench-to-Billable Acceleration Platform with three portals serving different user types. This guide walks through each portal's features and intended usage.
 
-**Live Prototype:** [URL to be added after deployment]
-**Source Code:** [GitHub repo link]
+**Live Prototype:** https://interviewai-orpin.vercel.app
+**Source Code:** https://github.com/Monish-Nallagondalla/interview_ai
 
 ---
 
@@ -18,11 +18,22 @@ Key metrics displayed: 2L+ employees served, 35%→55% conversion target, ₹360
 ## 1. Candidate Portal
 
 ### Stage 1: Onboarding & Profile Enrichment (`/candidate/onboarding`)
-**What it does:** Candidate pastes their resume text. AI initiates a conversation to extract deeper details — quantified achievements, hidden skills, project scale, and impact numbers that are missing from the resume.
+**What it does:**
+- **File upload or paste:** Candidate uploads `.txt`, `.pdf`, `.doc`, `.docx` resume — or pastes text directly
+- AI detects visible gaps in the resume (missing numbers, no deep tech, vague descriptions) before the first question
+- Asks exactly **6 structured questions** in sequence, each targeting a specific gap type:
+  1. Most impactful project — business problem and personal contribution
+  2. Complex technical decisions — approach, options considered, rationale
+  3. Skill depth — specific production use cases for top 3 skills with scale metrics
+  4. Leadership/cross-functional work — what was owned vs delegated
+  5. Missing experience — certifications, side projects, open-source contributions
+  6. Proudest unlisted achievement — the most important thing the resume doesn't show
+- Progress bar tracks 0/6 → 6/6 completion
+- After question 6: generates a **Strengthened Resume** the candidate can copy immediately
 
-**Why it matters:** A weak resume produces weak gap analysis. The enrichment conversation transforms a generic "worked on cloud migration" into "led migration of 200+ servers to AWS, reducing infra costs by 35% and achieving 99.99% uptime."
+**Why it matters:** A weak resume produces weak gap analysis. The structured 6-question flow ensures we surface quantified achievements, hidden technical depth, and leadership experience that resumes routinely omit. The candidate exits with a better resume, not just a better internal profile.
 
-**How to demo:** Paste any IT professional's resume → AI asks probing questions → answer 3-4 questions → observe how it pushes for quantification.
+**How to demo:** Upload any IT resume or paste text → observe AI's opening observation (it detects missing numbers automatically) → answer questions → copy the strengthened resume output.
 
 ### Stage 2: Enriched Profile View (`/candidate/profile`)
 **What it does:** Displays the candidate's skills (with proficiency bars), work experience (with achievements), and AI-extracted enrichment notes.
@@ -30,12 +41,28 @@ Key metrics displayed: 2L+ employees served, 35%→55% conversion target, ₹360
 **Enterprise context:** In production, this profile becomes the "source of truth" for all downstream matching and coaching — replacing the static resume.
 
 ### Stage 3: Gap Analysis (`/candidate/gap-analysis`)
-**What it does:** Candidate pastes a target JD. AI generates:
-- 6-dimension radar chart (Technical Depth, Communication, STAR Quality, JD Alignment, Confidence, Problem-Solving)
-- Skill-by-skill match (strong / partial / missing)
-- Prioritized action list ranked by conversion impact
+**What it does — 3 stages:**
 
-**How to demo:** Paste any JD → click "Run Gap Analysis" → observe the radar chart and specific, actionable gap identification.
+**Stage 3a — JD Input:**
+- Upload JD file (`.txt`, `.pdf`, `.doc`, `.docx`) or paste text
+- Shows which resume/profile is being used for comparison
+
+**Stage 3b — Initial Results:**
+- 6-dimension radar chart (Technical Depth, Communication, STAR Quality, JD Alignment, Confidence, Problem-Solving)
+- Skill-by-skill match: strong / partial / missing, with specific detail per skill
+- Priority actions ranked by conversion impact
+- Dark CTA panel: "X gaps found from your resume — start Deep Dive to surface hidden experience"
+
+**Stage 3c — Deep Dive (new):**
+- AI asks targeted questions about each partial/missing skill one by one
+- Not generic — each question is specific to the gap: "The JD requires Kubernetes. Have you worked with container orchestration in any capacity — even indirectly?"
+- Surfaces experience the resume didn't capture
+- After all gaps are probed, calculates a **revised match score** (typically +8–15 points)
+- Revised score shown as green badge; hidden experience logged for story building
+
+**Why the Deep Dive matters:** Resumes are a weak signal. Many candidates have relevant experience they didn't think to include. The Deep Dive systematically recovers this — improving gap scores and prep plan quality.
+
+**How to demo:** Upload any JD → review initial results → click "Start Deep Dive" → answer questions about gaps → observe revised score improvement.
 
 ### Stage 4: Personalized Prep Plan (`/candidate/prep-plan`)
 **What it does:** 10-day preparation plan tailored to the candidate's specific gaps. Each day has:

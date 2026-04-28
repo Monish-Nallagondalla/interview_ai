@@ -4,10 +4,10 @@
 
 | Required Area | Document(s) | Prototype Screen(s) |
 |---|---|---|
-| 1. Coaching & Monitoring Signals | KPIs & Metrics, Product Flow | Gap Analysis (radar), Scorecard (6 dims), Pipeline (risk alerts) |
-| 2. Data Inputs | System Architecture (§Data Model, §Integration Points) | Onboarding (resume), Gap Analysis (JD), Outcomes (feedback) |
-| 3. Agent Actions | System Architecture (§8 Agents), Product Flow (7 stages) | Enrichment chat, Story builder, Mock interview, Scoring |
-| 4. User Interaction | Users & Personas, Product Usage Guide | All 3 portals: Candidate (7 screens), Manager (4), Admin (2) |
+| 1. Coaching & Monitoring Signals | KPIs & Metrics, Product Flow | Gap Analysis (radar + deep dive), Scorecard (6 dims), Pipeline (risk alerts) |
+| 2. Data Inputs | System Architecture (§Data Model, §Integration Points) | Onboarding (file upload + enrichment), Gap Analysis (JD upload), Outcomes (feedback) |
+| 3. Agent Actions | System Architecture (§8 Agents), Product Flow (7 stages) | Enrichment chat, Story builder, Mock interview, Scoring, Deep Dive |
+| 4. User Interaction | Users & Personas, Product Usage Guide | All 3 portals: Candidate (10 screens), Manager (8), Admin (3) |
 | 5. Automation Design | Automation Design (autonomous vs HITL matrix) | Pipeline (risk alerts + approval), Outcomes (feedback loop), Audit log |
 
 ## Product Documentation
@@ -23,27 +23,39 @@
 | 07 | [KPIs & Metrics](KPIS_AND_METRICS.md) | Leading/lagging indicators, 6 readiness dimensions, ROI model, audit metrics |
 | 08 | [Risks & Reliability](RISKS_AND_RELIABILITY.md) | AI risks, mitigations, observability, circuit breakers, enterprise audit |
 | 09 | [12-Month Roadmap & Sprints](ROADMAP_AND_SPRINTS.md) | Quarterly goals, 24 sprints detailed, team assumptions, risk register |
+| 10 | [AI Evaluation Framework & Edge Cases](06_AI_EVALS_AND_EDGE_CASES.md) | Agent eval criteria, test batteries, 15 edge cases with handling, production readiness |
 
 ## Live Prototype
-- URL: [To be added after deployment]
-- Tech: Next.js 16 + Tailwind + OpenAI API + Vercel
-- Source: [To be added — GitHub repo link]
+- **URL:** https://interviewai-orpin.vercel.app
+- **Source:** https://github.com/Monish-Nallagondalla/interview_ai
+- Tech: Next.js 16 + Tailwind CSS v4 + OpenAI API + Vercel
 
-## Prototype Screens (16 total)
+## Prototype Screens (26 total)
 
 | Portal | Screen | Key Feature |
 |---|---|---|
-| Landing | `/` | Role selector + key metrics |
-| Candidate | `/candidate/onboarding` | Resume paste + AI enrichment chat |
-| Candidate | `/candidate/profile` | Enriched profile with skills + experience |
-| Candidate | `/candidate/gap-analysis` | JD paste → radar chart + skill gaps |
-| Candidate | `/candidate/prep-plan` | 10-day personalized prep with checkboxes |
-| Candidate | `/candidate/story-builder` | STAR story coach (conversational AI) |
+| Landing | `/` | Hero, 7-stage process, flywheel, business case |
+| Candidate | `/candidate/onboarding` | File upload + 6-question enrichment + strengthened resume output |
+| Candidate | `/candidate/profile` | Enriched skills, experience, AI-extracted notes |
+| Candidate | `/candidate/gap-analysis` | JD file upload → radar chart + skill gaps + deep dive conversation |
+| Candidate | `/candidate/prep-plan` | 10-day plan + learning resources |
+| Candidate | `/candidate/story-builder` | STAR coaching conversation |
+| Candidate | `/candidate/story-bank` | All stories mapped to JD requirements with quality scores |
 | Candidate | `/candidate/mock-interview` | 3-mode adaptive mock interview |
-| Candidate | `/candidate/scorecard` | 6-dimension feedback + next actions |
+| Candidate | `/candidate/mock-history` | Score trajectory + per-session radar |
+| Candidate | `/candidate/scorecard` | 6-dimension feedback + improvement actions |
+| Candidate | `/candidate/interview-day` | Pre-interview checklist + reminders |
+| Manager | `/manager/activity` | Real-time activity feed |
 | Manager | `/manager/pipeline` | Filterable pipeline + risk alerts |
-| Manager | `/manager/match` | Upload JD → ranked candidates |
-| Manager | `/manager/outcomes` | Interview outcome feedback form (the flywheel) |
+| Manager | `/manager/match` | JD file upload → ranked candidates |
+| Manager | `/manager/compare` | Side-by-side candidate comparison |
+| Manager | `/manager/outcomes` | Interview feedback form (flywheel) |
+| Manager | `/manager/client-intelligence` | Learned patterns per client |
 | Manager | `/manager/analytics` | Live bench cost ticker + conversion trends + ROI |
-| Admin | `/admin/system-health` | AI metrics + circuit breakers + agent performance |
+| Manager | `/manager/candidate/[id]` | Individual drill-down + timeline |
+| Admin | `/admin/system-health` | AI metrics + circuit breakers + 8-agent monitoring |
 | Admin | `/admin/audit-log` | Decision trail with reasoning chains |
+| Admin | `/admin/bias-report` | Gender/department/experience-band bias analysis |
+| Docs | `/docs` | PM narrative + thinking + decisions |
+| Docs | `/docs/[slug]` | Rendered specification documents |
+| Presentation | `/presentation` | 8-slide interactive deck |
