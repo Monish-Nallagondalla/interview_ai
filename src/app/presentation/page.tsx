@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { Logo } from "@/components/logo";
 
 const slides = [
   {
@@ -223,7 +224,7 @@ const slides = [
     title: "Thank You",
     content: (
       <div className="flex flex-col items-center justify-center h-full gap-6">
-        <div className="w-12 h-12 bg-[#FFE600] rounded-lg" />
+        <Logo size={48} />
         <h2 className="text-4xl font-bold text-[#1a1a2e]">Thank You</h2>
         <p className="text-lg text-gray-400 text-center max-w-md">
           Built by Monish Nallagondalla — AI Product Manager with hands-on experience in multi-agent systems, interview prep platforms, and enterprise coaching products.
@@ -248,7 +249,7 @@ export default function PresentationPage() {
       {/* Toolbar */}
       <div className="bg-[#1a1a2e] px-6 py-3 flex items-center justify-between shrink-0">
         <Link href="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
-          <div className="w-6 h-6 bg-[#FFE600] rounded-sm" />
+          <Logo size={24} />
           <span className="text-sm font-semibold text-white">InterviewAI</span>
           <div className="h-4 w-px bg-white/20" />
           <span className="text-sm text-white/50">Presentation</span>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Logo } from "@/components/logo";
 
 export default function Home() {
   return (
@@ -8,7 +9,7 @@ export default function Home() {
       <header className="sticky top-0 z-50 bg-[#1a1a2e]/95 backdrop-blur-sm border-b border-white/5">
         <div className="max-w-6xl mx-auto px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-7 h-7 bg-[#FFE600] rounded-sm" />
+            <Logo size={30} />
             <span className="text-base font-bold text-white tracking-tight">InterviewAI</span>
           </div>
           <nav className="hidden md:flex items-center gap-8 text-sm">
@@ -324,7 +325,7 @@ export default function Home() {
       <footer className="bg-[#0f0f1a] py-10">
         <div className="max-w-5xl mx-auto px-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-6 h-6 bg-[#FFE600] rounded-sm" />
+            <Logo size={24} />
             <span className="font-bold text-white text-sm">InterviewAI</span>
             <span className="text-white/20 mx-1">·</span>
             <span className="text-white/30 text-xs">Bench-to-Billable Acceleration Platform</span>

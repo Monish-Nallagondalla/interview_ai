@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { Logo } from "@/components/logo";
 
 interface NavItem {
   label: string;
@@ -26,7 +27,7 @@ export function PortalLayout({ children, portalName, navItems }: PortalLayoutPro
         <div className="px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
-              <div className="w-7 h-7 bg-[#FFE600] rounded-sm" />
+              <Logo size={28} />
               <span className="font-semibold text-base tracking-tight">InterviewAI</span>
             </Link>
             <div className="h-5 w-px bg-white/20" />

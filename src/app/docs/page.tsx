@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Logo } from "@/components/logo";
 
 const narrative = [
   {
@@ -63,7 +64,7 @@ export default function DocsPage() {
       <header className="bg-[#1a1a2e]">
         <div className="max-w-4xl mx-auto px-8 py-5 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <div className="w-7 h-7 bg-[#FFE600] rounded-sm" />
+            <Logo size={28} />
             <span className="text-base font-semibold text-white">InterviewAI</span>
             <div className="h-5 w-px bg-white/20" />
             <span className="text-sm text-white/60">Documentation</span>

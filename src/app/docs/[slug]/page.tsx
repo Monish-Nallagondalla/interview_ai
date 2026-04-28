@@ -5,6 +5,7 @@ import { use } from "react";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { Logo } from "@/components/logo";
 
 export default function DocViewerPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params);
@@ -26,7 +27,7 @@ export default function DocViewerPage({ params }: { params: Promise<{ slug: stri
       <header className="bg-[#1a1a2e] sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-8 py-4 flex items-center justify-between">
           <Link href="/docs" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <div className="w-6 h-6 bg-[#FFE600] rounded-sm" />
+            <Logo size={24} />
             <span className="text-sm font-semibold text-white">InterviewAI</span>
             <div className="h-4 w-px bg-white/20" />
             <span className="text-sm text-white/60">Documentation</span>
