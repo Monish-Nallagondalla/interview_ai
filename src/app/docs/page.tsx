@@ -171,6 +171,13 @@ export default function DocsPage() {
         {/* All docs */}
         <div className="mt-12 bg-[#1a1a2e] rounded-xl p-8">
           <h2 className="text-xl font-bold text-white mb-4">Full Specification Documents</h2>
+          <Link
+            href="/docs/architecture"
+            className="flex items-center justify-between px-4 py-3 bg-[#FFE600]/10 border border-[#FFE600]/30 rounded-lg text-sm text-[#FFE600] hover:bg-[#FFE600]/20 transition-colors mb-3"
+          >
+            <span className="font-semibold">System Architecture — Visual Diagram (recommended starting point)</span>
+            <span>&rarr;</span>
+          </Link>
           <div className="grid grid-cols-2 gap-3">
             {[
               { title: "Product Vision & Strategy", slug: "01_PRODUCT_VISION" },
